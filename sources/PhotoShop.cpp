@@ -9,20 +9,20 @@ using namespace std;
 int PhotoShop::numCourant = 1;
 
 PhotoShop::PhotoShop()
-{	
+{   
 
 }
 
 PhotoShop::~PhotoShop()
 {
-	reset();
+    reset();
 }
 void PhotoShop::ajouteImage(Image* pImage)
 {
-	pImage->setId(numCourant);
-	numCourant++;
+    pImage->setId(numCourant);
+    numCourant++;
 
-	images.insereElement(pImage);
+    images.insereElement(pImage);
 
 }
 void PhotoShop::afficheImages()  {
@@ -32,7 +32,7 @@ void PhotoShop::afficheImages()  {
 
         Image* image = it.operator&(); // Obtention de l'image à partir de l'itérateur
         image->Affiche(); // Appel de la méthode Affiche() pour afficher l'image
-    	it.operator++();
+        it.operator++();
     }
 }
 void PhotoShop::dessineImages()  {
@@ -42,69 +42,73 @@ void PhotoShop::dessineImages()  {
 
         Image* image = it.operator&();
         image->Dessine(); 
-    	it.operator++();
+        it.operator++();
     }
 }
 Image* PhotoShop::getImageParIndice(int indice)
 {
-	Iterateur<Image*> it(images); // Création d'un itérateur pour la liste d'images
-	int i=0;
+    Iterateur<Image*> it(images); // Création d'un itérateur pour la liste d'images
+    int i=0;
 
     while(!it.end()) 
     {
-    	if(i==indice)
-    	{
-        	 return it.operator&();
-    	}
-    	it.operator++();
-    	i++;
+        if(i==indice)
+        {
+             return it.operator&();
+        }
+        it.operator++();
+        i++;
     }
     return nullptr;
 }
 Image* PhotoShop::getImageParId(int id)
 {
-    		cout << "iciiiiiiiiiiiiiiiiiiiiiiii" << endl; 
-	Iterateur<Image*> it(images); // Création d'un itérateur pour la liste d'images
+    Iterateur<Image*> it(images); // Création d'un itérateur pour la liste d'images
 
     while(!it.end()) 
     {
-    	Image* image = it.operator&();
+        Image* image = it.operator&();
 
-    	if( image->getId() == id)
-    	{
-        	 return image;
-    	}
-    	it.operator++();
+        if( image->getId() == id)
+        {
+             return image;
+        }
+        it.operator++();
     }
     return nullptr;
 }
 void PhotoShop::supprimeImageParIndice(int indice) {
-
     if (indice > 0 && indice < images.getNombreElements())
     { 
+        cout << "INDICE : " << indice << endl;
         Image* image = images.getElement(indice); // Récupère le pointeur vers l'image à supprimer
-        cout << "indice ="<< indice << endl;
+        cout << "image --------------------="<< image->getId() << endl;
         images.retireElement(indice); // Retire l'élément correspondant de la liste en utilisant la classe ArrayList
         delete image; // Libère la mémoire occupée par l'image
     }
-    
+
 }
 
 
 void PhotoShop::supprimeImageParId(int id) {
     Iterateur<Image*> it(images); // Crée un itérateur pour la liste d'images
-
+    int i=1;
     while (!it.end()) {
         Image* image = it.operator&(); // Obtient le pointeur vers l'image courante
 
         if (image->getId() == id) {
-            images.retireElement(image->getId()); // Retire l'élément correspondant de la liste en utilisant l'itérateur
+            images.retireElement(i); // Retire l'élément correspondant de la liste en utilisant l'indice
             delete image; // Libère la mémoire occupée par l'image après avoir retiré l'élément
-            break; // Sort de la boucle une fois l'image supprimée
+            break; // Sort de la méthode une fois l'image supprimée
         }
+
         it.operator++();
+        i++;
     }
 }
+
+
+
 void PhotoShop::reset() {
     // Libération de la mémoire pour chaque Image dans images
     while (!images.estVide()) {
